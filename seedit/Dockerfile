@@ -1,6 +1,6 @@
 ## This base image is for running the latest lbrynet-daemon release.
-FROM ubuntu:18.04 as prep
-LABEL MAINTAINER="leopere [at] nixc [dot] us"
+FROM debian:stable-slim as prep
+LABEL MAINTAINER="nonme [at] outlook [dot] com"
 RUN apt-get update && apt-get -y install unzip curl
 
 ## Add lbrynet
@@ -13,13 +13,12 @@ RUN unzip /lbrynet.linux.zip -d /lbrynet/ && \
     mv /lbrynet/lbrynet /usr/bin && \
     chmod a+x /usr/bin/checkmount /usr/bin/lbrynet
 
-FROM ubuntu:18.04 as app
+FROM debian:stable-slim as app
 COPY --from=prep /usr/bin/checkmount /usr/bin/lbrynet /usr/bin/
 RUN adduser lbrynet --gecos GECOS --shell /bin/bash --disabled-password --home /home/lbrynet
 
 RUN apt-get update
 RUN apt-get install --yes software-properties-common && \
-    add-apt-repository universe && \
     apt-get --fix-broken install  && \
     apt-get update && \
     apt-get install -y wget apt-transport-https && \
@@ -38,13 +37,9 @@ RUN apt-get install -y build-essential \
       liblzma-dev \
       nfs-common
 
-# Pull down Python 3.7, build, and install
-RUN add-apt-repository ppa:deadsnakes/ppa && \
-    add-apt-repository -y ppa:git-core/ppa && \
-    apt-get update && \
-    apt-get install -y python3.7-dev \
+RUN apt-get install -y python3-dev \
       python3-pip \
-      python3.7-venv \
+      python3-venv \
       git \
       man
 
@@ -55,8 +50,8 @@ COPY ./core/lbrynet_home/seedit_config.yaml /seedit/seedit_config.yaml
 COPY ./core/requirements.txt ./requirements.txt
 COPY ./core/daemon_settings.yml /etc/lbry/daemon_settings.yml
 COPY ./core/lbrycron /etc/cron.d/lbrycron
-RUN python3.7 -m pip install --upgrade pip
-RUN python3.7 -m pip install -r requirements.txt
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install -r requirements.txt
 RUN chmod 0644 /etc/cron.d/lbrycron
 RUN crontab /etc/cron.d/lbrycron
 RUN touch /var/log/cron.log
