@@ -1,11 +1,21 @@
 # Put the LBRY channel URL here
 # You can find it by going to a channel and clicking the "about" tab
 channels:
-
-- lbry://@TheLinuxGamer#f
-- lbry://@tuxfoo#e
+- lbry://@rossmanngroup#a
+- lbry://@AlphaNerd#8
+- lbry://@DistroTube#2
+- lbry://@BrodieRobertson#5
+- lbry://@fireship#6
+- lbry://@bigclivedotcom#0d
+- lbry://@serpentza#5
+- lbry://@freakinreviews#4
+- lbry://@Thoughty2#b
+- lbry://@ElectroBOOM#9
+- lbry://@whiteboardcrypto#5
+- lbry://@Coldfusion#f
+- lbry://@brightsunfilms#5
+- lbry://@EposVox#6
 - lbry://@veritasium#f
-- lbry://@johnstossel#7
 
 # Will only download last x amount of videos according to the following value
 max_vids: 5
@@ -16,9 +26,8 @@ max_disk_usage: 0
 usage_percent: 90
 # Videos from these channels will not be deleted when disk is near capacity
 never_delete:
+- lbry://@rossmanngroup#a
 
-- '@TheLinuxGamer'
-- '@tuxfoo'
 # Only the blobs are required for seeding, clean downloads each time the script is run.
 clear_downloads: true
 # If you are using docker then leave this as /home/lbrynet/
